@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import API from '../../utils/api';
 import { useCart } from '../../context/CartContext';
 import toast from 'react-hot-toast';
+const BASE_URL = "https://herwall.onrender.com";
 
 const PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"%3E%3Crect width="400" height="500" fill="%23ffe3ef"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="72" fill="%23ff85a1"%3E🌸%3C/text%3E%3C/svg%3E';
 
@@ -67,7 +68,7 @@ export default function ProductPage() {
         <div className="space-y-3">
           <div className="card overflow-hidden aspect-[3/4] bg-pink-50">
             <img
-              src={images[activeImg] ? `http://localhost:5000${images[activeImg]}` : PLACEHOLDER}
+              src={images[activeImg] ? `${BASE_URL}${images[activeImg]}` : PLACEHOLDER}
               alt={product.name}
               className="w-full h-full object-cover"
               onError={e => { e.target.src = PLACEHOLDER; }}
