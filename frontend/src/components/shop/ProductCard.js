@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext';
 import toast from 'react-hot-toast';
 
 const PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"%3E%3Crect width="300" height="400" fill="%23ffe3ef"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="48" fill="%23ff85a1"%3E🌸%3C/text%3E%3C/svg%3E';
-
+const BASE_URL = "https://herwall.onrender.com";
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const [hovered, setHovered] = useState(false);
@@ -26,7 +26,7 @@ export default function ProductCard({ product }) {
       {/* Image */}
       <div className="relative overflow-hidden aspect-[3/4] bg-pink-50">
         <img
-          src={product.images?.[0] ? `http://localhost:5000${product.images[0]}` : PLACEHOLDER}
+          src={product.images?.[0] ? `${BASE_URL}${product.images[0]}` : PLACEHOLDER}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           onError={e => { e.target.src = PLACEHOLDER; }}
