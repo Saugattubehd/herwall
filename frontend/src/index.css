@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #fff5f9;
+    color: #2d1b2e;
+    font-family: 'DM Sans', sans-serif;
+  }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-pink-500 to-pink-600 text-white font-medium px-6 py-2.5 rounded-full shadow-pink hover:shadow-pink-lg hover:from-pink-600 hover:to-pink-700 transition-all duration-200 active:scale-95;
+  }
+  .btn-outline {
+    @apply border-2 border-pink-400 text-pink-600 font-medium px-6 py-2.5 rounded-full hover:bg-pink-50 transition-all duration-200 active:scale-95;
+  }
+  .btn-ghost {
+    @apply text-pink-600 font-medium px-4 py-2 rounded-full hover:bg-pink-50 transition-all duration-200;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-soft border border-pink-100 overflow-hidden;
+  }
+  .input {
+    @apply w-full border border-pink-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent bg-white placeholder-pink-300 transition-all;
+  }
+  .label {
+    @apply block text-sm font-medium text-pink-700 mb-1;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .section-title {
+    @apply font-display text-3xl md:text-4xl font-bold text-gray-900;
+  }
+  .pink-divider {
+    @apply w-16 h-1 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full my-3;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #fff0f6; }
+::-webkit-scrollbar-thumb { background: #ff85a1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #ff4d6d; }
+
+/* Shimmer skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #ffe3ef 25%, #fff0f6 50%, #ffe3ef 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pink noise texture overlay */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Page transitions */
+.page-enter { animation: pageEnter 0.3s ease forwards; }
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Petal decoration */
+.petal {
+  position: absolute;
+  border-radius: 50% 0 50% 0;
+  background: linear-gradient(135deg, rgba(255,133,161,0.3), rgba(255,77,109,0.1));
+  pointer-events: none;
+}
