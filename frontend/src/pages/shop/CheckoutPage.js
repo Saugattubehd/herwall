@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import API from '../../utils/api';
 import toast from 'react-hot-toast';
-
+const BASE_URL = "https://herwall.onrender.com";
 export default function CheckoutPage() {
   const { cart, total, clearCart } = useCart();
   const { user } = useAuth();
@@ -154,7 +154,7 @@ export default function CheckoutPage() {
               {cart.map(item => (
                 <div key={item.key} className="flex gap-3">
                   <div className="w-12 h-14 bg-pink-50 rounded-lg flex-shrink-0 overflow-hidden">
-                    <img src={item.productImage ? `http://localhost:5000${item.productImage}` : ''} alt=""
+                    <img src={item.productImage ? `${BASE_URL}${item.productImage}` : ''} alt=""
                       className="w-full h-full object-cover"
                       onError={e => { e.target.style.display = 'none'; }} />
                   </div>
