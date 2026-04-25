@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import API from '../../utils/api';
 import toast from 'react-hot-toast';
+const BASE_URL = "https://herwall.onrender.com";
 
 const STATUS_COLORS = {
   placed: 'bg-yellow-100 text-yellow-700', confirmed: 'bg-blue-100 text-blue-700',
@@ -98,7 +99,7 @@ export default function AdminOrderDetail() {
           {order.items?.map((item, i) => (
             <div key={i} className="flex items-center gap-4 p-3 bg-pink-50 rounded-xl">
               <div className="w-12 h-14 bg-pink-100 rounded-lg overflow-hidden flex-shrink-0">
-                {item.productImage && <img src={`http://localhost:5000${item.productImage}`} alt="" className="w-full h-full object-cover"
+                {item.productImage && <img src={`${BASE_URL}${item.productImage}`} alt="" className="w-full h-full object-cover"
                   onError={e => { e.target.style.display = 'none'; }} />}
               </div>
               <div className="flex-1 min-w-0">
