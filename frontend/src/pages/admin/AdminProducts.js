@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 const PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="60" height="80" viewBox="0 0 60 80"%3E%3Crect width="60" height="80" fill="%23ffe3ef"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23ff85a1"%3E🌸%3C/text%3E%3C/svg%3E';
 const SIZES = ['A4 (8.3×11.7 in)', 'A3 (11.7×16.5 in)', 'A2 (16.5×23.4 in)', 'A1 (23.4×33.1 in)', '12×18 in', '24×36 in'];
 const ARTISTS = ['BTS', 'BLACKPINK', 'TWICE', 'EXO', 'Stray Kids', 'NewJeans', 'aespa', 'IVE', 'Other'];
-
+const BASE_URL = "https://herwall.onrender.com";
 function ProductModal({ product, categories, onClose, onSaved }) {
   const isEdit = !!product?._id;
   const [form, setForm] = useState({
@@ -233,7 +233,7 @@ export default function AdminProducts() {
           {products.map(p => (
             <div key={p._id} className="card overflow-hidden group">
               <div className="aspect-[3/4] bg-pink-50 relative overflow-hidden">
-                <img src={p.images?.[0] ? `http://localhost:5000${p.images[0]}` : PLACEHOLDER}
+                <img  src={product.images?.[0] ? `${BASE_URL}${product.images[0]}` : PLACEHOLDER}
                   alt={p.name} className="w-full h-full object-cover"
                   onError={e => { e.target.src = PLACEHOLDER; }} />
                 {p.featured && (
