@@ -79,7 +79,7 @@ export default function ProductPage() {
               {images.map((img, i) => (
                 <button key={i} onClick={() => setActiveImg(i)}
                   className={`flex-shrink-0 w-16 h-20 rounded-lg overflow-hidden border-2 transition-all ${activeImg === i ? 'border-pink-500' : 'border-pink-100'}`}>
-                  <img src={img ? `http://localhost:5000${img}` : PLACEHOLDER} alt="" className="w-full h-full object-cover"
+                  <img src={img ? `${BASE_URL}${img}` : PLACEHOLDER} alt="" className="w-full h-full object-cover"
                     onError={e => { e.target.src = PLACEHOLDER; }} />
                 </button>
               ))}
