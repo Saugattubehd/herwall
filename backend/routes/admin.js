@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require('../models/User');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-const { protect, adminOnly, generateToken } = require('../middleware/auth');
+const { protect, adminOnly, staffOnly, generateToken } = require('../middleware/auth');
+
 
 // Dashboard stats
 router.get('/stats', protect, staffOnly, async (req, res) => {
