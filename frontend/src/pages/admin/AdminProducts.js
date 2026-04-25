@@ -233,7 +233,7 @@ export default function AdminProducts() {
           {products.map(p => (
             <div key={p._id} className="card overflow-hidden group">
               <div className="aspect-[3/4] bg-pink-50 relative overflow-hidden">
-                <img src={p.images?.[0] ? `http://localhost:5000${p.images[0]}` : PLACEHOLDER}
+                <img src={p.images?.[0] ? `${BASE_URL}${p.images[0]}` : PLACEHOLDER}
                   alt={p.name} className="w-full h-full object-cover"
                   onError={e => { e.target.src = PLACEHOLDER; }} />
                 {p.featured && (
