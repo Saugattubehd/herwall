@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import API from '../../utils/api';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const STATUS_COLORS = {
   placed: 'bg-yellow-100 text-yellow-700', confirmed: 'bg-blue-100 text-blue-700',
@@ -12,10 +13,26 @@ const STATUS_COLORS = {
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const { isAdmin } = useAuth();
+  // Re-fetch every time the user navigates back to this page
+  const location = useLocation();
 
-  useEffect(() => {
-    API.get('/admin/stats').then(r => setStats(r.data)).catch(() => {}).finally(() => setLoading(false));
+  const fetchStats = useCallback(() => {
+    setLoading(true);
+    setError('');
+    API.get('/admin/stats')
+      .then(r => setStats(r.data))
+      .catch(err => {
+        setError(err.response?.data?.message || 'Failed to load dashboard');
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  // Re-runs every time the route is visited (location.key changes on each navigation)
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats, location.key]);
 
   const STAT_CARDS = stats ? [
     { label: 'Total Orders', value: stats.totalOrders, icon: '📦', color: 'from-blue-50 to-blue-100', text: 'text-blue-700' },
@@ -30,6 +47,15 @@ export default function AdminDashboard() {
         {[...Array(4)].map((_, i) => <div key={i} className="skeleton h-28 rounded-2xl" />)}
       </div>
       <div className="skeleton h-64 rounded-2xl" />
+    </div>
+  );
+
+  if (error) return (
+    <div className="flex flex-col items-center justify-center py-24 text-center">
+      <div className="text-5xl mb-4">⚠️</div>
+      <h2 className="font-display text-xl font-bold text-gray-900 mb-2">Could not load dashboard</h2>
+      <p className="text-gray-500 text-sm mb-6">{error}</p>
+      <button onClick={fetchStats} className="btn-primary">Try Again</button>
     </div>
   );
 
@@ -57,8 +83,11 @@ export default function AdminDashboard() {
           <h2 className="font-semibold text-gray-900">Recent Orders</h2>
           <Link to="/admin/orders" className="text-sm text-pink-600 hover:text-pink-800 font-medium">View All →</Link>
         </div>
-        {stats?.recentOrders?.length === 0 ? (
-          <p className="text-center text-gray-400 py-8">No orders yet</p>
+        {!stats?.recentOrders?.length ? (
+          <div className="text-center py-8">
+            <p className="text-4xl mb-2">📦</p>
+            <p className="text-gray-400 text-sm">No orders yet</p>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -70,7 +99,7 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-pink-50">
-                {stats.recentOrders?.map(o => (
+                {stats.recentOrders.map(o => (
                   <tr key={o._id} className="hover:bg-pink-50/50 transition-colors">
                     <td className="py-3 px-3">
                       <Link to={`/admin/orders/${o._id}`} className="font-mono text-xs text-pink-700 hover:underline">{o.orderId}</Link>
@@ -95,7 +124,8 @@ export default function AdminDashboard() {
           { to: '/admin/products', label: 'Add Product', icon: '➕', color: 'bg-pink-50 hover:bg-pink-100 text-pink-700' },
           { to: '/admin/categories', label: 'Add Category', icon: '🏷️', color: 'bg-purple-50 hover:bg-purple-100 text-purple-700' },
           { to: '/admin/orders', label: 'View Orders', icon: '📦', color: 'bg-blue-50 hover:bg-blue-100 text-blue-700' },
-          { to: '/admin/staff', label: 'Manage Staff', icon: '👥', color: 'bg-green-50 hover:bg-green-100 text-green-700' },
+          // Only show staff management link to admins
+          ...(isAdmin ? [{ to: '/admin/staff', label: 'Manage Staff', icon: '👥', color: 'bg-green-50 hover:bg-green-100 text-green-700' }] : []),
         ].map(a => (
           <Link key={a.to} to={a.to} className={`card p-4 flex flex-col items-center gap-2 text-center border-0 transition-colors ${a.color}`}>
             <span className="text-2xl">{a.icon}</span>
