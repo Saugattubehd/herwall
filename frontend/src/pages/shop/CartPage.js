@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+const BASE_URL = "https://herwall.onrender.com";
 
 const PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="100" viewBox="0 0 80 100"%3E%3Crect width="80" height="100" fill="%23ffe3ef"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="28" fill="%23ff85a1"%3E🌸%3C/text%3E%3C/svg%3E';
 
@@ -43,7 +44,7 @@ export default function CartPage() {
             <div key={item.key} className="card flex gap-4 p-4">
               <div className="w-20 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-pink-50">
                 <img
-                  src={item.productImage ? `http://localhost:5000${item.productImage}` : PLACEHOLDER}
+                  src={item.productImage ? `${BASE_URL}${item.productImage}` : PLACEHOLDER}
                   alt={item.productName}
                   className="w-full h-full object-cover"
                   onError={e => { e.target.src = PLACEHOLDER; }}
