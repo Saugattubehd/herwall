@@ -6,7 +6,7 @@ const Product = require('../models/Product');
 const { protect, adminOnly, generateToken } = require('../middleware/auth');
 
 // Dashboard stats
-router.get('/stats', protect, adminOnly, async (req, res) => {
+router.get('/stats', protect, staffOnly, async (req, res) => {
   try {
     const [totalOrders, totalUsers, totalProducts, revenueAgg] = await Promise.all([
       Order.countDocuments(),
